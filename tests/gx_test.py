@@ -32,10 +32,6 @@ from tests.base import Lxml
 from tests.base import StdLibrary
 
 
-class TestStdLibrary(StdLibrary):
-    """Test with the standard library."""
-
-
 class TestGetGxGeometry(StdLibrary):
     def test_track(self) -> None:
         doc = """<gx:Track xmlns:kml="http://www.opengis.net/kml/2.2"
@@ -47,6 +43,7 @@ class TestGetGxGeometry(StdLibrary):
         </gx:Track>"""
         g = Track.from_string(doc, ns="")
 
+        assert g.geometry
         assert g.geometry.__geo_interface__ == {
             "type": "LineString",
             "bbox": (0.0, 0.0, 1.0, 1.0),
@@ -520,10 +517,6 @@ class TestMultiTrack(StdLibrary):
         assert "coord>" in track.to_string()
         assert "angles>" in track.to_string()
         assert "when>" in track.to_string()
-
-
-class TestLxml(Lxml, TestStdLibrary):
-    """Test with lxml."""
 
 
 class TestLxmlGetGxGeometry(Lxml, TestGetGxGeometry):
